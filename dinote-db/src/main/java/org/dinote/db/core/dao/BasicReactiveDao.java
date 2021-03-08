@@ -1,12 +1,12 @@
 package org.dinote.db.core.dao;
 
-import reactor.core.publisher.Mono;
+import org.reactivestreams.Publisher;
 
 public interface BasicReactiveDao<T, R> {
 
-    Mono<T> findById(R id);
+    Publisher<T> findById(R id);
 
-    Mono<T> deleteById(R id);
+    Publisher<T> deleteById(R id);
 
-    Mono<T> save(T entity);
+    Publisher<T> save(T entity);
 }

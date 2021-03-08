@@ -4,7 +4,6 @@ import groovy.util.logging.Slf4j
 import org.dinote.db.initializers.DbIntegrationTestInitializer
 import org.dinote.db.specification.DbSpecification
 import org.dinote.db.user.entity.User
-import org.flywaydb.core.Flyway
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
-import spock.lang.Specification
 
 import java.util.concurrent.atomic.AtomicLong
 

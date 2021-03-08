@@ -1,10 +1,7 @@
 package org.dinote.db.configuration;
 
-import org.dinote.db.core.query.string.PsqlStringQueryBuilderFactory;
-import org.dinote.db.core.query.string.StringQueryBuilderFactory;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,8 +23,5 @@ public class DatabaseConfiguration {
         }
     }
 
-    @Bean
-    public StringQueryBuilderFactory stringQueryBuilderFactory() {
-        return new PsqlStringQueryBuilderFactory();
-    }
+
 }

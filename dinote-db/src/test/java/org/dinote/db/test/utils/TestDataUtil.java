@@ -3,7 +3,7 @@ package org.dinote.db.test.utils;
 import lombok.experimental.UtilityClass;
 import org.dinote.db.user.entity.User;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @UtilityClass
 public class TestDataUtil {
@@ -23,9 +23,9 @@ public class TestDataUtil {
     public final String EMAIL_1 = "sample-email-1";
     public final String EMAIL_2 = "sample-email-2";
     public final String EMAIL_3 = "sample-email-3";
-    public final Date DATE_1 = new Date(System.currentTimeMillis());
-    public final Date DATE_2 = new Date(System.currentTimeMillis());
-    public final Date DATE_3 = new Date(System.currentTimeMillis());
+    public final LocalDateTime DATE_1 = LocalDateTime.now();
+    public final LocalDateTime DATE_2 = LocalDateTime.now();
+    public final LocalDateTime DATE_3 = LocalDateTime.now();
 
     public final User USER_1 = createUser(ID_1, NAME_1, ENCODED_PASSWORD_1, EMAIL_1, DATE_1, DATE_1);
     public final User USER_2 = createUser(ID_2, NAME_2, ENCODED_PASSWORD_2, EMAIL_2, DATE_2, DATE_2);
@@ -35,8 +35,8 @@ public class TestDataUtil {
                             String name,
                             String password,
                             String email,
-                            Date createdOn,
-                            Date updatedOn) {
+                            LocalDateTime createdOn,
+                            LocalDateTime updatedOn) {
 
         return User.builder()
                 .id(id)

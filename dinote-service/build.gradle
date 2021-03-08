@@ -3,6 +3,11 @@ plugins {
     id 'java'
 }
 
-dependencies {
+def apacheCommonsCodecVersion = '1.15'
 
+dependencies {
+    implementation project(':dinote-db')
+    testImplementation project(':dinote-db').sourceSets.test.output
+
+    implementation group: 'commons-codec', name: 'commons-codec', version: apacheCommonsCodecVersion
 }

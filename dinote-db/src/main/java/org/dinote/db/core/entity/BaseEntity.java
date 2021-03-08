@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @SuperBuilder
@@ -12,6 +12,6 @@ import java.util.Date;
 public class BaseEntity {
 
     protected Long id;
-    protected Date createdOn;
-    protected Date updatedOn;
+    protected LocalDateTime createdOn;
+    protected LocalDateTime updatedOn;
 }
