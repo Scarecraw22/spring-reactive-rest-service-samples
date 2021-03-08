@@ -1,9 +1,13 @@
 package org.dinote.service.user
 
+import org.dinote.core.exception.DinoteServerException
 import org.dinote.db.test.utils.TestDataUtil
+import org.dinote.db.user.entity.User
 import org.dinote.service.password.PasswordService
 import org.dinote.service.specification.ServiceSpecification
+import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
+import spock.lang.Unroll
 
 import java.time.LocalDateTime
 
@@ -20,7 +24,7 @@ class UserReactiveServiceImplTest extends ServiceSpecification {
         def result = userReactiveService.addUser(TestDataUtil.USER_1)
 
         then:
-        StepVerifier.create(result.log())
+        StepVerifier.create(Mono.from(result).log())
                 .assertNext(next -> {
                     next != null
                     next.getId() > 0
@@ -33,4 +37,20 @@ class UserReactiveServiceImplTest extends ServiceSpecification {
                 .verifyComplete()
     }
 
+    @Unroll
+    def "#conditionString then should throw proper exception"() {
+        when:
+        userReactiveService.addUser(actualUser)
+
+        then:
+        thrown(DinoteServerException)
+
+        where:
+        actualUser                           | conditionString
+        null                                 | "user is null"
+        new User(null, null, null)           | "user has null params"
+        new User(null, "param 1", "param 2") | "user has one null params"
+        new User("param1", "param2", "")     | "user has one empty params"
+        new User("param1", "   ", "param3")  | "user has one blank params"
+    }
 }

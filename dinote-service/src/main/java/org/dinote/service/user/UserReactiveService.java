@@ -6,4 +6,8 @@ import org.reactivestreams.Publisher;
 public interface UserReactiveService {
 
     Publisher<User> addUser(User user);
+
+    Publisher<User> findById(Long id);
+
+
 }

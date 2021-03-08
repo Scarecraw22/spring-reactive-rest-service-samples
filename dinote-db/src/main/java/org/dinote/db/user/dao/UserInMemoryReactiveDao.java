@@ -12,7 +12,7 @@ public class UserInMemoryReactiveDao extends AbstractInMemoryReactiveDao<User, L
     private Long actualId = 1L;
 
     @Override
-    public Publisher<User> save(User entity) {
+    public Publisher<User> save(final User entity) {
         return Mono.from(findByName(entity.getName()))
                 .flatMap(user -> Mono.error(new IllegalArgumentException("User with name: " + entity.getName() + " already exists")))
                 .defaultIfEmpty(User.builder()
@@ -31,7 +31,7 @@ public class UserInMemoryReactiveDao extends AbstractInMemoryReactiveDao<User, L
     }
 
     @Override
-    public Publisher<User> findWithNameContains(String string) {
+    public Publisher<User> findWithNameContains(final String string) {
         return database.entrySet().stream()
                 .filter(entry -> entry.getValue().getName().toLowerCase().contains(string.toLowerCase()))
                 .findFirst()
@@ -40,7 +40,7 @@ public class UserInMemoryReactiveDao extends AbstractInMemoryReactiveDao<User, L
     }
 
     @Override
-    public Publisher<User> findByName(String name) {
+    public Publisher<User> findByName(final String name) {
         return database.entrySet().stream()
                 .filter(entry -> entry.getValue().getName().equals(name))
                 .findFirst()

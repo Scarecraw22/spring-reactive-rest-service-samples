@@ -23,6 +23,7 @@ allprojects {
 
    plugins.withType(JavaPlugin) {
        dependencies {
+
            // Groovy
            implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: groovyVersion, ext: 'pom'
 

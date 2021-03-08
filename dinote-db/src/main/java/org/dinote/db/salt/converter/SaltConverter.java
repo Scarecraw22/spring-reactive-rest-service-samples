@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 public class SaltConverter implements Function<Row, Salt> {
     @Override
-    public Salt apply(Row row) {
+    public Salt apply(final Row row) {
         return Salt.builder()
                 .hash(row.get("hash", String.class))
                 .build();

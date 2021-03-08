@@ -2,7 +2,8 @@ package org.dinote.service.password;
 
 public interface PasswordService {
 
-    String encode(String rawPassword);
+    String encode(final String rawPassword);
 
-    boolean matches(String rawPassword, String encodedPassword);
+    boolean matches(final String rawPassword,
+                    final String encodedPassword);
 }

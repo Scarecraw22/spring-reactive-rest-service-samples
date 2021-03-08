@@ -2,6 +2,7 @@ package org.dinote.service.password;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
+import org.dinote.core.validator.StringArgumentValidator;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -29,6 +30,7 @@ public class PasswordHasher {
     }
 
     public String hash(final String password) {
+        StringArgumentValidator.requireNotNullOrBlank(password);
         try {
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
             PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), PEPPER.getBytes(), ITERATIONS, HASH_WIDTH);
@@ -41,6 +43,7 @@ public class PasswordHasher {
     }
 
     public String hashWithMd5(final String password) {
+        StringArgumentValidator.requireNotNullOrBlank(password);
         md.update(password.getBytes());
         return Hex.encodeHexString(md.digest());
     }

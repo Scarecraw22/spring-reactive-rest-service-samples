@@ -4,9 +4,9 @@ import org.reactivestreams.Publisher;
 
 public interface BasicReactiveDao<T, R> {
 
-    Publisher<T> findById(R id);
+    Publisher<T> findById(final R id);
 
-    Publisher<T> deleteById(R id);
+    Publisher<T> deleteById(final R id);
 
-    Publisher<T> save(T entity);
+    Publisher<T> save(final T entity);
 }

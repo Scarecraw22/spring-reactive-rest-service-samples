@@ -1,6 +1,7 @@
 package org.dinote.service.password;
 
 import lombok.RequiredArgsConstructor;
+import org.dinote.core.validator.StringArgumentValidator;
 import org.dinote.db.salt.dao.SaltReactiveDao;
 import reactor.core.publisher.Mono;
 
@@ -12,6 +13,7 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     public String encode(final String rawPassword) {
+        StringArgumentValidator.requireNotNullOrBlank(rawPassword);
         return Mono.from(saltReactiveDao.getSalt())
                 .map(salt -> passwordHasher.hashWithMd5(rawPassword + salt))
                 .map(passwordHasher::hash)
@@ -21,6 +23,8 @@ public class PasswordServiceImpl implements PasswordService {
 
     @Override
     public boolean matches(final String rawPassword, final String encodedPassword) {
+        StringArgumentValidator.requireNotNullOrBlank(rawPassword);
+        StringArgumentValidator.requireNotNullOrBlank(encodedPassword);
         return encode(rawPassword).equals(encodedPassword);
     }
 }

@@ -1,6 +1,7 @@
 package org.dinote.db.user.dao
 
 import groovy.util.logging.Slf4j
+import org.dinote.core.exception.DinoteServerException
 import org.dinote.db.initializers.DbIntegrationTestInitializer
 import org.dinote.db.specification.DbSpecification
 import org.dinote.db.user.entity.User
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
+import spock.lang.Unroll
 
 import java.util.concurrent.atomic.AtomicLong
 
@@ -66,6 +68,53 @@ class UserR2dbcDaoTest extends DbSpecification {
         StepVerifier.create(emptyUser2.log())
                 .expectNextCount(0)
                 .verifyComplete()
+    }
+
+    def "delete by id user that not exists should return empty publisher"() {
+        when:
+        def result = userDao.deleteById(100L)
+
+        then:
+        StepVerifier.create(Mono.from(result).log())
+                .expectNextCount(0)
+                .verifyComplete()
+    }
+
+    def "find not existing user by id should return empty publisher"() {
+        when:
+        def result = userDao.findById(100L)
+
+        then:
+        StepVerifier.create(Mono.from(result).log())
+                .expectNextCount(0)
+                .verifyComplete()
+    }
+
+    def "find not existing user by name should return empty publisher"() {
+        when:
+        def result = userDao.findByName("name-that-not-exists")
+
+        then:
+        StepVerifier.create(Mono.from(result).log())
+                .expectNextCount(0)
+                .verifyComplete()
+    }
+
+    @Unroll
+    def "#conditionString then should throw proper exception"() {
+        when:
+        userDao.save(actualUser)
+
+        then:
+        thrown(DinoteServerException)
+
+        where:
+        actualUser                           | conditionString
+        null                                 | "user is null"
+        new User(null, null, null)           | "user has null params"
+        new User(null, "param 1", "param 2") | "user has one null params"
+        new User("param1", "param2", "")     | "user has one empty params"
+        new User("param1", "   ", "param3")  | "user has one blank params"
     }
 
     private static void assertUser(Mono<User> userMono,

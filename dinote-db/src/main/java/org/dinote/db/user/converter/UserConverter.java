@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class UserConverter implements Function<Row, User> {
     @Override
-    public User apply(Row row) {
+    public User apply(final Row row) {
         return User.builder()
                 .id(row.get("id", Long.class))
                 .password(row.get("password", String.class))

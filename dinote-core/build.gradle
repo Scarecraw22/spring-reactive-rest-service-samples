@@ -3,10 +3,8 @@ plugins {
     id 'java'
 }
 
-
-
 dependencies {
 
-    // Spring
+    implementation project(':dinote-utils')
 
 }

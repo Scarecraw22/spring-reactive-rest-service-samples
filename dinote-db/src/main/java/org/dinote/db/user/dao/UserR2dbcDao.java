@@ -1,9 +1,11 @@
 package org.dinote.db.user.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.dinote.core.validator.StringArgumentValidator;
 import org.dinote.db.core.query.string.StringQueryBuilderFactory;
 import org.dinote.db.user.converter.UserConverter;
 import org.dinote.db.user.entity.User;
+import org.dinote.db.user.validation.UserValidator;
 import org.reactivestreams.Publisher;
 import org.springframework.r2dbc.core.DatabaseClient;
 
@@ -22,7 +24,8 @@ public class UserR2dbcDao implements UserReactiveDao {
     private final StringQueryBuilderFactory queryFactory;
 
     @Override
-    public Publisher<User> findWithNameContains(String string) {
+    public Publisher<User> findWithNameContains(final String string) {
+        StringArgumentValidator.requireNotNullOrBlank(string);
         return client.sql(queryFactory.create()
                                   .selectAll()
                                   .from("dinote.user")
@@ -34,7 +37,8 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Publisher<User> findByName(String name) {
+    public Publisher<User> findByName(final String name) {
+        StringArgumentValidator.requireNotNullOrBlank(name);
         return client.sql(queryFactory.create()
                                   .selectAll()
                                   .from("dinote", "user")
@@ -46,7 +50,8 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Publisher<User> save(User user) {
+    public Publisher<User> save(final User user) {
+        UserValidator.validateUserToAdd(user);
         return client.sql(queryFactory.create()
                                   .insertInto("dinote", "user", USER_COLUMNS)
                                   .values(List.of("default", ":name", ":password", ":email", ":updatedOn", ":createdOn"))
@@ -62,7 +67,7 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Publisher<User> findById(Long id) {
+    public Publisher<User> findById(final Long id) {
         return client.sql(queryFactory.create()
                                   .selectAll()
                                   .from("dinote", "user")
@@ -74,7 +79,7 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Publisher<User> deleteById(Long id) {
+    public Publisher<User> deleteById(final Long id) {
         return client.sql(queryFactory.create()
                                   .deleteFrom("dinote", "user")
                                   .where("id = :id")

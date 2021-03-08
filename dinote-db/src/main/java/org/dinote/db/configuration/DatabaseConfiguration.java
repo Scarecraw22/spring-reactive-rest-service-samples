@@ -22,6 +22,4 @@ public class DatabaseConfiguration {
             return null;
         }
     }
-
-
 }
