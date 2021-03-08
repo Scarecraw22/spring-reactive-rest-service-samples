@@ -1,0 +1,69 @@
+plugins {
+    id 'groovy'
+    id 'java'
+}
+
+group 'org.dinote'
+version '1.0-SNAPSHOT'
+
+def springBootVersion = '2.4.3'
+def springFrameworkVersion = '5.3.4'
+def groovyVersion = '3.0.7'
+def jUnitVersion = '4.13.2'
+def jUnitJupiterApiVersion = '5.7.1'
+def spockVersion = '2.0-M4-groovy-3.0'
+def lombokVersion = '1.18.18'
+def reactorTestVersion = '3.4.3'
+def testcontainersVersion = '1.15.2'
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+
+   plugins.withType(JavaPlugin) {
+       dependencies {
+           // Groovy
+           implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: groovyVersion, ext: 'pom'
+
+           // Lombok
+           implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+           annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+           testImplementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+           testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+           // Spring
+           implementation group: 'org.springframework', name: 'spring', version: springFrameworkVersion, ext: 'pom'
+           implementation group: 'org.springframework', name: 'spring-webmvc', version: springFrameworkVersion
+
+           implementation group: 'org.springframework.boot', name: 'spring-boot', version: springBootVersion
+           implementation group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: springBootVersion
+           implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+           implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: springBootVersion
+
+           testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+
+           // Spock
+           testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
+           testImplementation group: 'org.spockframework', name: 'spock-spring', version: spockVersion
+
+           // Reactor
+           testImplementation group: 'io.projectreactor', name: 'reactor-test', version: reactorTestVersion
+
+           // Testcontainers
+           implementation platform('org.testcontainers:testcontainers-bom:1.15.1')
+           testImplementation group: 'org.testcontainers', name: 'postgresql', version: testcontainersVersion
+
+           // JUnit
+           testImplementation group: 'junit', name: 'junit', version: jUnitVersion
+           testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitJupiterApiVersion
+           testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+       }
+
+       test {
+           useJUnitPlatform()
+       }
+   }
+}
+

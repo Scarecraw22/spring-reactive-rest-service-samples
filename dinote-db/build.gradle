@@ -1,0 +1,28 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id "org.flywaydb.flyway" version "6.2.3"
+}
+
+def springDataR2dbcVersion = '1.2.5'
+def reactorVersion = '3.4.3'
+def postgresR2dbcVersion = '0.8.7.RELEASE'
+def r2dbcPoolVersion = '0.9.0.M1'
+def postgresqlVersion = '42.2.19'
+def flywayVersion = '7.6.0'
+
+dependencies {
+
+    implementation project(":dinote-core")
+    implementation project(":dinote-utils")
+
+    implementation group: 'org.springframework.data', name: 'spring-data-r2dbc', version: springDataR2dbcVersion
+    implementation group: 'io.projectreactor', name: 'reactor-core', version: reactorVersion
+
+    // Database
+    implementation group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
+    implementation group: 'io.r2dbc', name: 'r2dbc-postgresql', version: postgresR2dbcVersion
+    implementation group: 'io.r2dbc', name: 'r2dbc-pool', version: r2dbcPoolVersion
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
+
+}

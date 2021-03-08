@@ -1,0 +1,9 @@
+rootProject.name = 'Dinote'
+
+include ':dinote-utils'
+include ':dinote-messages'
+include ':dinote-core'
+include ':dinote-db'
+include ':dinote-rest'
+include ':dinote-service'
+
