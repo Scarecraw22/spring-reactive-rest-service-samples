@@ -17,7 +17,7 @@ import reactor.test.StepVerifier
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(initializers = [DbIntegrationTestInitializer.class])
-@ActiveProfiles(["test"])
+@ActiveProfiles(["db-active"])
 class SaltR2dbcDaoTest extends DbSpecification {
 
     @Autowired

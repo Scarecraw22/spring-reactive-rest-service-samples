@@ -3,6 +3,19 @@ plugins {
     id 'java'
 }
 
+def reactorNettyVersion = '1.0.4'
+
+compileTestJava.dependsOn tasks.getByPath(':dinote-utils:testClasses')
+
 dependencies {
+
+    implementation project(':dinote-db')
+    implementation project(':dinote-service')
+    implementation project(':dinote-core')
+    implementation project(':dinote-utils')
+
+    testImplementation project(':dinote-utils')
+    testImplementation project(path: ':dinote-utils', configuration: 'tests')
+    implementation group: 'io.projectreactor.netty', name: 'reactor-netty', version: reactorNettyVersion
 
 }

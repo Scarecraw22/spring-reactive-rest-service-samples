@@ -10,11 +10,13 @@ import org.dinote.db.user.dao.UserR2dbcDao;
 import org.dinote.db.user.dao.UserReactiveDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.r2dbc.core.DatabaseClient;
 
 import java.time.Clock;
 
 @Configuration
+@Profile("db-active")
 public class DaoConfiguration {
 
     @Bean

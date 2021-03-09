@@ -24,7 +24,7 @@ import static org.dinote.db.test.utils.TestDataUtil.USER_2
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(initializers = [DbIntegrationTestInitializer.class])
-@ActiveProfiles(["test"])
+@ActiveProfiles(["db-active"])
 class UserR2dbcDaoTest extends DbSpecification {
 
     @Autowired

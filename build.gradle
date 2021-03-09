@@ -35,11 +35,9 @@ allprojects {
 
            // Spring
            implementation group: 'org.springframework', name: 'spring', version: springFrameworkVersion, ext: 'pom'
-           implementation group: 'org.springframework', name: 'spring-webmvc', version: springFrameworkVersion
 
            implementation group: 'org.springframework.boot', name: 'spring-boot', version: springBootVersion
            implementation group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: springBootVersion
-           implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
            implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: springBootVersion
 
            testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
@@ -59,7 +57,6 @@ allprojects {
            testImplementation group: 'junit', name: 'junit', version: jUnitVersion
            testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitJupiterApiVersion
            testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-
        }
 
        test {
