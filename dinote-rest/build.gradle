@@ -4,6 +4,8 @@ plugins {
 }
 
 def reactorNettyVersion = '1.0.4'
+def springBootVersion = '2.4.3'
+def springSessionDataRedisVersion = '2.4.2'
 
 compileTestJava.dependsOn tasks.getByPath(':dinote-utils:testClasses')
 
@@ -13,9 +15,15 @@ dependencies {
     implementation project(':dinote-service')
     implementation project(':dinote-core')
     implementation project(':dinote-utils')
+    implementation project(':dinote-messages')
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: springBootVersion, ext: 'pom'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
+    implementation group: 'org.springframework.session', name: 'spring-session-data-redis', version: springSessionDataRedisVersion
+
+    implementation group: 'io.projectreactor.netty', name: 'reactor-netty', version: reactorNettyVersion
 
     testImplementation project(':dinote-utils')
     testImplementation project(path: ':dinote-utils', configuration: 'tests')
-    implementation group: 'io.projectreactor.netty', name: 'reactor-netty', version: reactorNettyVersion
 
 }

@@ -8,6 +8,7 @@ import org.dinote.db.user.entity.User;
 import org.dinote.db.user.validation.UserValidator;
 import org.reactivestreams.Publisher;
 import org.springframework.r2dbc.core.DatabaseClient;
+import reactor.core.publisher.Mono;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -88,5 +89,26 @@ public class UserR2dbcDao implements UserReactiveDao {
                 .bind("id", id)
                 .map(userConverter)
                 .one();
+    }
+
+    @Override
+    public Publisher<User> findByEmail(final String email) {
+        StringArgumentValidator.requireNotNullOrBlank(email);
+        return client.sql(queryFactory.create()
+                                  .selectAll()
+                                  .from("dinote", "user")
+                                  .where("email = :email")
+                                  .returningAll()
+                                  .build())
+                .bind("email", email)
+                .map(userConverter)
+                .one();
+    }
+
+    @Override
+    public Publisher<Boolean> existsByName(final String name) {
+        return Mono.from(findByName(name))
+                .map(user -> user.getName().equals(name))
+                .defaultIfEmpty(Boolean.FALSE);
     }
 }

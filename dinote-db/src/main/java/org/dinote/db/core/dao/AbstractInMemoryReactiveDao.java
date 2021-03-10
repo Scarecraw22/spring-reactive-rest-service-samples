@@ -5,6 +5,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 abstract public class AbstractInMemoryReactiveDao<T, R> implements BasicReactiveDao<T, R> {
 
@@ -22,5 +23,13 @@ abstract public class AbstractInMemoryReactiveDao<T, R> implements BasicReactive
     @Override
     public Publisher<T> deleteById(final R id) {
         return database.containsKey(id) ? Mono.just(database.remove(id)) : Mono.empty();
+    }
+
+    protected Publisher<T> findByPredicateOrEmpty(final Predicate<Map.Entry<R, T>> predicate) {
+        return database.entrySet().stream()
+                .filter(predicate)
+                .findFirst()
+                .map(entry -> Mono.just(entry.getValue()))
+                .orElse(Mono.empty());
     }
 }

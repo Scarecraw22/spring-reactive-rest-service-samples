@@ -2,7 +2,6 @@ package org.dinote.rest.user.configuration;
 
 import org.dinote.rest.user.add.helper.AddUserHelper;
 import org.dinote.rest.user.add.model.converter.AddUserConverter;
-import org.dinote.rest.user.add.model.converter.AddUserConverterImpl;
 import org.dinote.rest.user.handler.UserRequestHandler;
 import org.dinote.service.user.UserReactiveService;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +12,7 @@ public class UserRestConfiguration {
 
     @Bean
     public AddUserConverter addUserConverter() {
-        return new AddUserConverterImpl();
+        return new AddUserConverter();
     }
 
     @Bean

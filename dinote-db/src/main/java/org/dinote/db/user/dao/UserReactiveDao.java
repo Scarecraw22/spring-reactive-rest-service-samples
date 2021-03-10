@@ -14,4 +14,8 @@ public interface UserReactiveDao extends BasicReactiveDao<User, Long> {
     Publisher<User> findWithNameContains(final String string);
 
     Publisher<User> findByName(final String name);
+
+    Publisher<User> findByEmail(final String email);
+
+    Publisher<Boolean> existsByName(final String name);
 }

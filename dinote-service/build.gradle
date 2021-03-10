@@ -8,8 +8,9 @@ def apacheCommonsCodecVersion = '1.15'
 dependencies {
     implementation project(':dinote-core')
     implementation project(':dinote-db')
+    implementation project(':dinote-messages')
+    implementation project(':dinote-utils')
 
-    testImplementation project(':dinote-db').sourceSets.test.output
-
+    testImplementation project(path: ':dinote-utils', configuration: 'tests')
     implementation group: 'commons-codec', name: 'commons-codec', version: apacheCommonsCodecVersion
 }

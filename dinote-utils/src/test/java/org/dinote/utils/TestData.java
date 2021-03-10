@@ -14,6 +14,7 @@ public class TestData {
     public String STRING_1 = "sample-string-1";
     public String STRING_2 = "sample-string-2";
     public String STRING_3 = "sample-string-3";
+    public String STRING_4 = "sample-string-4";
 
     public LocalDateTime LOCAL_DATE_TIME_1 = LocalDateTime.of(2021, 1, 1, 0, 0, 0);
     public LocalDateTime LOCAL_DATE_TIME_2 = LocalDateTime.of(2021, 1, 2, 0, 0, 0);
