@@ -5,6 +5,7 @@ import org.dinote.core.exception.DinoteServerException
 import org.dinote.db.initializers.DbIntegrationTestInitializer
 import org.dinote.db.specification.DbSpecification
 import org.dinote.db.user.entity.User
+import org.dinote.utils.TestData
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 import spock.lang.Unroll
 
+import java.time.Duration
 import java.util.concurrent.atomic.AtomicLong
 
 import static org.dinote.db.test.utils.TestDataUtil.USER_1
@@ -115,6 +117,46 @@ class UserR2dbcDaoTest extends DbSpecification {
         new User(null, "param 1", "param 2") | "user has one null params"
         new User("param1", "param2", "")     | "user has one empty params"
         new User("param1", "   ", "param3")  | "user has one blank params"
+    }
+
+    def "findByEmail method should properly find user by it's email"() {
+        given:
+        User user = User.builder()
+                .name(TestData.STRING_1)
+                .password(TestData.STRING_2)
+                .email(TestData.STRING_3)
+                .build()
+
+        when:
+        def saved = userDao.save(user)
+
+        then:
+        StepVerifier.create(Mono.from(saved).log())
+                .expectNextCount(1)
+                .verifyComplete()
+
+        when:
+        def foundByEmail = userDao.findByEmail(TestData.STRING_3)
+
+        then:
+        AtomicLong id = new AtomicLong()
+        StepVerifier.create(Mono.from(foundByEmail).log())
+                .assertNext(next -> {
+                    assert next != null
+                    id.set(next.getId())
+                    assert next.getId() > 0
+                    assert next.name == TestData.STRING_1
+                    assert next.password == TestData.STRING_2
+                    assert next.email == TestData.STRING_3
+                    assert next.createdOn != null
+                    assert next.updatedOn != null
+                })
+                .verifyComplete()
+
+        cleanup:
+        Mono.from(userDao.deleteById(id.get()))
+                .log()
+                .block(Duration.ofSeconds(1))
     }
 
     private static void assertUser(Mono<User> userMono,

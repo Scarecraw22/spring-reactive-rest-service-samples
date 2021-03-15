@@ -35,7 +35,7 @@ public class RedisTestContainer {
     }
 
     public String getRedisUrl() {
-        return "redis://" + getUrl() + ":" + getPort();
+        return "redis://" + getUrl();
     }
 
     public static synchronized RedisTestContainer getInstance() {

@@ -98,7 +98,6 @@ public class UserR2dbcDao implements UserReactiveDao {
                                   .selectAll()
                                   .from("dinote", "user")
                                   .where("email = :email")
-                                  .returningAll()
                                   .build())
                 .bind("email", email)
                 .map(userConverter)

@@ -24,4 +24,5 @@ dependencies {
     implementation group: 'io.r2dbc', name: 'r2dbc-pool', version: r2dbcPoolVersion
     implementation group: 'org.flywaydb', name: 'flyway-core', version: flywayVersion
 
+    testImplementation project(path: ':dinote-utils', configuration: 'tests')
 }

@@ -13,7 +13,9 @@ public class RedisIntegrationTestInitializer implements ApplicationContextInitia
         RedisTestContainer redisTestContainer = RedisTestContainer.getInstance();
         redisTestContainer.startWithStopOnShutdown();
 
-        TestPropertyValues.of("redis.url=" + redisTestContainer.getRedisUrl())
+        TestPropertyValues.of("spring.redis.url=" + redisTestContainer.getRedisUrl())
+                .and("spring.redis.port=" + redisTestContainer.getPort())
+                .and("spring.session.store-type=redis")
                 .and(defaultProperties())
                 .applyTo(applicationContext.getEnvironment());
     }

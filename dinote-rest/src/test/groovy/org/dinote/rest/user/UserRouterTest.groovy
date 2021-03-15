@@ -3,6 +3,8 @@ package org.dinote.rest.user
 import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.util.logging.Slf4j
 import org.dinote.db.user.entity.User
+import org.dinote.rest.TestApplication
+import org.dinote.rest.initializers.RedisIntegrationTestInitializer
 import org.dinote.rest.user.add.model.request.AddUserRequest
 import org.dinote.rest.user.add.model.response.AddUserResponse
 import org.dinote.service.user.UserReactiveService
@@ -12,6 +14,8 @@ import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
@@ -19,7 +23,9 @@ import spock.lang.Specification
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = ["spring.main.allow-bean-definition-overriding=true"])
+@ContextConfiguration(initializers = [RedisIntegrationTestInitializer.class], classes = [TestApplication.class])
+@ActiveProfiles(value = ["rest-test"])
 class UserRouterTest extends Specification {
 
     @Autowired
@@ -50,7 +56,8 @@ class UserRouterTest extends Specification {
 
         expect:
         webTestClient
-                .post().uri("/users/user")
+                .post()
+                .uri("/users/user")
                 .bodyValue(addUserRequest)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()

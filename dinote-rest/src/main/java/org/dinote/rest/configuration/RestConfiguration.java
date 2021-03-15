@@ -7,10 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.session.data.redis.config.annotation.web.server.EnableRedisWebSession;
 
 @Configuration
-@EnableRedisWebSession
 public class RestConfiguration {
 
     @Bean
@@ -22,7 +20,7 @@ public class RestConfiguration {
     }
 
     @Bean
-    public LettuceConnectionFactory redisConnectionFactory() {
+    public LettuceConnectionFactory lettuceConnectionFactory() {
         return new LettuceConnectionFactory();
     }
 }
