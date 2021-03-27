@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.dinote.db.core.query.string.StringQueryBuilderFactory;
 import org.dinote.db.user.converter.UserConverter;
 import org.dinote.db.user.entity.User;
-import org.dinote.db.user.validation.UserValidator;
-import org.dinote.validator.StringArgumentValidator;
+import org.dinote.db.user.validator.UserValidator;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.r2dbc.core.DatabaseClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -23,10 +23,10 @@ public class UserR2dbcDao implements UserReactiveDao {
     private final UserConverter userConverter;
     private final Clock clock;
     private final StringQueryBuilderFactory queryFactory;
+    private final UserValidator userValidator;
 
     @Override
-    public Flux<User> findWithNameContains(final String string) {
-        StringArgumentValidator.requireNotNullOrBlank(string);
+    public Flux<User> findWithNameContains(@NotNull final String string) {
         return client.sql(queryFactory.create()
                                   .selectAll()
                                   .from("dinote.user")
@@ -38,8 +38,7 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Mono<User> findByName(final String name) {
-        StringArgumentValidator.requireNotNullOrBlank(name);
+    public Mono<User> findByName(@NotNull final String name) {
         return client.sql(queryFactory.create()
                                   .selectAll()
                                   .from("dinote", "user")
@@ -51,8 +50,8 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Mono<User> save(final User user) {
-        UserValidator.validateUserToAdd(user);
+    public Mono<User> save(@NotNull final User user) {
+        userValidator.validateUserToAdd(user);
         return client.sql(queryFactory.create()
                                   .insertInto("dinote", "user", USER_COLUMNS)
                                   .values(List.of("default", ":name", ":password", ":email", ":updatedOn", ":createdOn"))
@@ -68,7 +67,7 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Mono<User> findById(final Long id) {
+    public Mono<User> findById(@NotNull final Long id) {
         return client.sql(queryFactory.create()
                                   .selectAll()
                                   .from("dinote", "user")
@@ -80,7 +79,7 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Mono<User> deleteById(final Long id) {
+    public Mono<User> deleteById(@NotNull final Long id) {
         return client.sql(queryFactory.create()
                                   .deleteFrom("dinote", "user")
                                   .where("id = :id")
@@ -92,8 +91,7 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Mono<User> findByEmail(final String email) {
-        StringArgumentValidator.requireNotNullOrBlank(email);
+    public Mono<User> findByEmail(@NotNull final String email) {
         return client.sql(queryFactory.create()
                                   .selectAll()
                                   .from("dinote", "user")
@@ -105,7 +103,7 @@ public class UserR2dbcDao implements UserReactiveDao {
     }
 
     @Override
-    public Mono<Boolean> existsByName(final String name) {
+    public Mono<Boolean> existsByName(@NotNull final String name) {
         return Mono.from(findByName(name))
                 .map(user -> user.getName().equals(name))
                 .defaultIfEmpty(Boolean.FALSE);

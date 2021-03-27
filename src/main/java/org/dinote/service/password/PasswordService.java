@@ -1,5 +1,7 @@
 package org.dinote.service.password;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Responsible for managing password
  *
@@ -7,8 +9,8 @@ package org.dinote.service.password;
  */
 public interface PasswordService {
 
-    String encode(final String rawPassword);
+    String encode(@NotNull final String rawPassword);
 
-    boolean matches(final String rawPassword,
-                    final String encodedPassword);
+    boolean matches(@NotNull final String rawPassword,
+                    @NotNull final String encodedPassword);
 }

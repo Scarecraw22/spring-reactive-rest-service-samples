@@ -8,6 +8,7 @@ import org.dinote.db.salt.dao.SaltReactiveDao;
 import org.dinote.db.user.converter.UserConverter;
 import org.dinote.db.user.dao.UserR2dbcDao;
 import org.dinote.db.user.dao.UserReactiveDao;
+import org.dinote.db.user.validator.UserValidator;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -47,10 +48,21 @@ public class DbConfig {
     }
 
     @Bean
+    public UserValidator userValidator() {
+        return new UserValidator();
+    }
+
+    @Bean
     public UserReactiveDao userReactiveDao(DatabaseClient databaseClient,
                                            UserConverter userConverter,
                                            Clock clock,
-                                           StringQueryBuilderFactory stringQueryBuilderFactory) {
-        return new UserR2dbcDao(databaseClient, userConverter, clock, stringQueryBuilderFactory);
+                                           StringQueryBuilderFactory stringQueryBuilderFactory,
+                                           UserValidator userValidator) {
+        return new UserR2dbcDao(
+                databaseClient,
+                userConverter,
+                clock,
+                stringQueryBuilderFactory,
+                userValidator);
     }
 }

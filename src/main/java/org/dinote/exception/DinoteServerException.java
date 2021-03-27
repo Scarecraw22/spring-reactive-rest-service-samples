@@ -1,12 +1,15 @@
 package org.dinote.exception;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DinoteServerException extends RuntimeException {
 
-    public DinoteServerException(final String message) {
+    public DinoteServerException(@NotNull final String message) {
         super(message);
     }
 
-    public DinoteServerException(final String message, final Throwable cause) {
+    public DinoteServerException(@NotNull final String message,
+                                 @NotNull final Throwable cause) {
         super(message, cause);
     }
 }

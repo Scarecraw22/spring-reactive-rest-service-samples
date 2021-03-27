@@ -12,7 +12,7 @@ def springFrameworkVersion = '5.3.5'
 def groovyVersion = '3.0.7'
 def jUnitVersion = '4.13.2'
 def jUnitJupiterApiVersion = '5.8.0-M1'
-def spockVersion = '2.0-M4-groovy-3.0'
+def spockVersion = '2.0-M5-groovy-3.0'
 def lombokVersion = '1.18.18'
 def reactorTestVersion = '3.4.4'
 def testcontainersVersion = '1.15.2'
@@ -20,11 +20,12 @@ def reactorNettyVersion = '1.0.5'
 def springSessionDataRedisVersion = '2.4.2'
 def springBootDataRedisVersion = '2.4.4'
 def springSecurityVersion = '5.4.5'
-def flywayVersion = '7.7.0'
+def flywayVersion = '7.7.1'
 def springR2dbcVersion = '1.2.6'
 def r2dbcPoolVersion = '0.9.0.M1'
 def r2dbcPsqlVersion = '0.8.7.RELEASE'
 def postgresVersion = '42.2.19'
+def jetbrainsVersion = '20.1.0'
 
 repositories {
     mavenCentral()
@@ -90,6 +91,9 @@ dependencies {
 
     // Commons codec
     implementation group: 'commons-codec', name: 'commons-codec', version: apacheCommonsCodecVersion
+
+    // Jetbrains
+    implementation group: 'org.jetbrains', name: 'annotations', version: jetbrainsVersion
 }
 
 test {

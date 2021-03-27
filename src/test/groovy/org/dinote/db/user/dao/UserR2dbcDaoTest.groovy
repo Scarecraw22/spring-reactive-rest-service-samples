@@ -118,7 +118,6 @@ class UserR2dbcDaoTest extends DbSpecification {
 
         where:
         actualUser                           | conditionString
-        null                                 | "user is null"
         new User(null, null, null)           | "user has null params"
         new User(null, "param 1", "param 2") | "user has one null params"
         new User("param1", "param2", "")     | "user has one empty params"
